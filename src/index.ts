@@ -3,11 +3,21 @@ import cors from "cors";
 import express, { ErrorRequestHandler } from "express";
 import { connectDb, closeDb } from "./db.js";
 import waitlistRouter from "./routes/waitlist.js";
+import adminRouter from "./routes/admin.js";
 
 const app = express();
 const port = Number(process.env.PORT || 5001);
 
-const allowedOrigins = (process.env.FRONTEND_ORIGIN || "")
+const defaultOrigins = [
+	"http://localhost:3000",
+	"http://localhost:4000",
+	"http://127.0.0.1:3000",
+	"http://127.0.0.1:4000",
+];
+
+const allowedOrigins = (
+	process.env.FRONTEND_ORIGIN || defaultOrigins.join(",")
+)
 	.split(",")
 	.map((origin) => origin.trim())
 	.filter(Boolean);
@@ -33,6 +43,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api", waitlistRouter);
+app.use("/api", adminRouter);
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 	console.error(err);
