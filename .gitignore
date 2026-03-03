@@ -1,9 +1,23 @@
-/dist
-/node_modules
-/.pnp
+# dependencies
+node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+
+# build output
+dist/
+build/
+
+# env files
+.env
+.env.*
+!.env.example
+
+# misc
+*.log
+.DS_Store
+coverage/
